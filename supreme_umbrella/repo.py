@@ -87,7 +87,6 @@ class UserRepo:
         except mysql.connector.errors.IntegrityError:
             raise IntegrityError
         cur.close()
-        user.id = cur.lastrowid
 
     @staticmethod
     def get_all() -> list[models.User]:
