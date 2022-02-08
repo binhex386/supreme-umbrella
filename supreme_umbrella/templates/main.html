@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+    <h1>Main Page</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>City</th>
+                <th>Interests</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('profile', slug=user.slug, id=user.get_id()) }}">{{ user.display_name }}</a>
+                        {% if user == current_user %}
+                            (me)
+                        {% endif %}
+                    </td>
+                    <td>{{ user.age_years }}</td>
+                    <td>{{ user.city }}</td>
+                    <td>{{ user.interests }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">
+                        No users registered yet.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}No Title{% endblock %}</title>
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+  </head>
+  <body>
+    <p style="text-align: right;">
+      <a href="{{ url_for('main') }}">Main Page</a> |
+      {% if current_user.is_authenticated %}
+        <strong>{{ current_user.display_name }}</strong> |
+        <a href="{{ url_for('edit') }}">Edit Profile</a> |
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a> |
+        <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+    </p>
+
+    <hr>
+
+    {% for message in get_flashed_messages() %}
+      <blockquote>{{ message }}</blockquote>
+    {% endfor %}
+
+    {% block content %}
+      <h1>No Content</h1>
+    {% endblock %}
+  </body>
+</html>
