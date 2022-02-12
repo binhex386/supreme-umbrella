@@ -29,3 +29,11 @@ class RegisterForm(ProfileBaseForm):
 
 class ProfileForm(ProfileBaseForm):
     pass
+
+
+class SearchForm(FlaskForm):
+    first_name = StringField("first_name", validators=[DataRequired(), Length(max=20)])
+    last_name = StringField("last_name", validators=[DataRequired(), Length(max=20)])
+
+    class Meta:
+        csrf = False

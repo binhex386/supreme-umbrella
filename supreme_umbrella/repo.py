@@ -89,8 +89,30 @@ class UserRepo:
         cur.close()
 
     @staticmethod
-    def get_all() -> list[models.User]:
+    def get_all(limit: int, offset: int) -> list[models.User]:
         conn = db.get_db()
         cur = conn.cursor(dictionary=True)
-        cur.execute("SELECT * FROM user")
+        cur.execute(
+            "SELECT * FROM user ORDER BY id LIMIT %s OFFSET %s",
+            (limit, offset),
+        )
+        return [models.User(**row) for row in cur]
+
+    @staticmethod
+    def search(first: str, last: str) -> list[models.User]:
+        conn = db.get_db()
+        cur = conn.cursor(dictionary=True)
+        cur.execute(
+            """
+                SELECT * FROM user
+                WHERE
+                    first_name like %(first_name)s
+                    AND last_name like %(last_name)s
+                ORDER BY id
+            """,
+            {
+                "first_name": f"{first}%",
+                "last_name": f"{last}%",
+            },
+        )
         return [models.User(**row) for row in cur]

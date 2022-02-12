@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %}Main Page{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-    <h1>Main Page</h1>
+    <h1>{{ title }}</h1>
     <table>
         <thead>
             <tr>
@@ -29,10 +29,17 @@
             {% else %}
                 <tr>
                     <td colspan="4">
-                        No users registered yet.
+                        No users to show.
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    {% if page %}
+        <p style="text-align: center;">
+            <a href="?p={{ page - 1 }}">Prev</a> |
+            <a href="?p={{ page + 1 }}">Next</a>
+        </p>
+    {% endif %}
 {% endblock %}

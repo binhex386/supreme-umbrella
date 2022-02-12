@@ -8,6 +8,7 @@
   <body>
     <p style="text-align: right;">
       <a href="{{ url_for('main') }}">Main Page</a> |
+      <a href="{{ url_for('search') }}">Search</a> |
       {% if current_user.is_authenticated %}
         <strong>{{ current_user.display_name }}</strong> |
         <a href="{{ url_for('edit') }}">Edit Profile</a> |
@@ -15,7 +16,7 @@
       {% else %}
         <a href="{{ url_for('login') }}">Login</a> |
         <a href="{{ url_for('register') }}">Register</a>
-        {% endif %}
+      {% endif %}
     </p>
 
     <hr>

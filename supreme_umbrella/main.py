@@ -6,6 +6,9 @@ import flask_login
 
 from . import auth, db, forms, models, repo
 
+PAGE_SIZE = 10
+
+
 app = flask.Flask("supreme_umbrella")
 db.init_app(app)
 auth.login_manager.init_app(app)
@@ -20,8 +23,10 @@ def healthz() -> dict[str, str]:
 
 @app.get("/")
 def main() -> str:
-    users = repo.UserRepo.get_all()
-    return flask.render_template("main.html", users=users)
+    page = max(1, int(flask.request.args.get("p", 1)))
+    offset = (page - 1) * PAGE_SIZE
+    users = repo.UserRepo.get_all(limit=PAGE_SIZE, offset=offset)
+    return flask.render_template("main.html", users=users, page=page, title="Main Page")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -89,3 +94,16 @@ def edit() -> str | flask.Response:
         return flask.redirect(flask.url_for("main"))
 
     return flask.render_template("form.html", form=form, title="Edit")
+
+
+@app.route("/search", methods=["GET", "POST"])
+def search() -> str:
+    form = forms.SearchForm()
+    if form.validate_on_submit():
+        users = repo.UserRepo.search(
+            first=form.first_name.data,
+            last=form.last_name.data,
+        )
+        return flask.render_template("main.html", users=users, title="Search Results")
+
+    return flask.render_template("form.html", form=form, title="Search")

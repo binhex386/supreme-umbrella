@@ -1,7 +1,3 @@
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(40) NOT NULL,
@@ -12,5 +8,6 @@ CREATE TABLE `user` (
   `interests` text NOT NULL,
   `city` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `email` (`email`),
+  KEY `first_name_last_name` (`first_name`,`last_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;

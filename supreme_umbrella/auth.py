@@ -34,6 +34,9 @@ def create_hash(
 
 
 def verify_hash(password: str, db_hash: str) -> bool:
+    if db_hash == "!":
+        return False
+
     hash_name, salt_str, iterations_str, hash_str = db_hash.split("$")
     salt = binascii.unhexlify(salt_str)
     iterations = int(iterations_str)
